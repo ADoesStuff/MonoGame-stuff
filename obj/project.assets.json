@@ -295,19 +295,19 @@
     ]
   },
   "packageFolders": {
-    "/home/iasonas/.nuget/packages/": {}
+    "C:\\Users\\alexs\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/iasonas/Projects/MonoGame-stuff/Game.csproj",
+      "projectUniqueName": "C:\\Users\\alexs\\Desktop\\i love monogame\\Game.csproj",
       "projectName": "Game",
-      "projectPath": "/home/iasonas/Projects/MonoGame-stuff/Game.csproj",
-      "packagesPath": "/home/iasonas/.nuget/packages/",
-      "outputPath": "/home/iasonas/Projects/MonoGame-stuff/obj/",
+      "projectPath": "C:\\Users\\alexs\\Desktop\\i love monogame\\Game.csproj",
+      "packagesPath": "C:\\Users\\alexs\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\alexs\\Desktop\\i love monogame\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/iasonas/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\alexs\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -325,7 +325,13 @@
         "warnAsError": [
           "NU1605"
         ]
-      }
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net8.0": {
@@ -356,7 +362,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.122/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

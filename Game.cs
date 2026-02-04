@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-
-class DesktopGame
-{
-    public static void Main()
-    {
-        
-    }
-}
-=======
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -46,4 +36,3 @@ namespace GameNMSP {
 	
 
 }
->>>>>>> b40a412c08e2b376ae832c43e8618363b689f2d7

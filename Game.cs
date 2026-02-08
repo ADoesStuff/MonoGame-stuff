@@ -8,7 +8,7 @@ namespace GameNMSP {
 		GraphicsDeviceManager gdm;
 
 		Vector3 camPos = new Vector3(-200, 30, 30);
-		Vector3 cameraFont = new Vector3(1, 0, 0);
+		Vector3 cameraFront = new Vector3(1, 0, 0);
 
 		KeyboardState state = new KeyboardState();
 
@@ -26,7 +26,7 @@ namespace GameNMSP {
 		private void HandleInput() {
 			state = Keyboard.GetState();
 			if(state.IsKeyDown(Keys.W)) {
-				
+				Exit();
 			} else if (state.IsKeyDown(Keys.S)) {
 				
 			}

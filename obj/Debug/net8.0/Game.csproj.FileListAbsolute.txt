@@ -32,3 +32,37 @@
 /home/iasonas/Projects/MonoGame-stuff/obj/Debug/net8.0/Game.genruntimeconfig.cache
 /home/iasonas/Projects/MonoGame-stuff/obj/Debug/net8.0/ref/Game.dll
 /home/iasonas/Projects/MonoGame-stuff/obj/Debug/net8.0/mgcb.tool.restore
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\Game.exe
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\Game.deps.json
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\Game.runtimeconfig.json
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\Game.dll
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\Game.pdb
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\MonoGame.Framework.dll
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\NVorbis.dll
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\runtimes\android-arm\native\libopenal.so
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\runtimes\android-arm64\native\libopenal.so
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\runtimes\android-x64\native\libopenal.so
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\runtimes\android-x86\native\libopenal.so
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\runtimes\ios-arm64\native\libopenal.a
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\runtimes\iossimulator-arm64\native\libopenal.a
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\runtimes\iossimulator-x64\native\libopenal.a
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\runtimes\linux-arm64\native\libopenal.so
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\runtimes\linux-x64\native\libopenal.so
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\runtimes\osx\native\libopenal.dylib
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\runtimes\win-x64\native\openal.dll
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\runtimes\linux-x64\native\libSDL2-2.0.so.0
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\runtimes\osx\native\libSDL2-2.0.0.dylib
+C:\Users\alexs\Desktop\i love monogame\bin\Debug\net8.0\runtimes\win-x64\native\SDL2.dll
+C:\Users\alexs\Desktop\i love monogame\obj\Debug\net8.0\mgcb.tool.restore
+C:\Users\alexs\Desktop\i love monogame\obj\Debug\net8.0\Game.csproj.AssemblyReference.cache
+C:\Users\alexs\Desktop\i love monogame\obj\Debug\net8.0\Game.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alexs\Desktop\i love monogame\obj\Debug\net8.0\Game.AssemblyInfoInputs.cache
+C:\Users\alexs\Desktop\i love monogame\obj\Debug\net8.0\Game.AssemblyInfo.cs
+C:\Users\alexs\Desktop\i love monogame\obj\Debug\net8.0\Game.csproj.CoreCompileInputs.cache
+C:\Users\alexs\Desktop\i love monogame\obj\Debug\net8.0\Game.sourcelink.json
+C:\Users\alexs\Desktop\i love monogame\obj\Debug\net8.0\Game.csproj.Up2Date
+C:\Users\alexs\Desktop\i love monogame\obj\Debug\net8.0\Game.dll
+C:\Users\alexs\Desktop\i love monogame\obj\Debug\net8.0\refint\Game.dll
+C:\Users\alexs\Desktop\i love monogame\obj\Debug\net8.0\Game.pdb
+C:\Users\alexs\Desktop\i love monogame\obj\Debug\net8.0\Game.genruntimeconfig.cache
+C:\Users\alexs\Desktop\i love monogame\obj\Debug\net8.0\ref\Game.dll

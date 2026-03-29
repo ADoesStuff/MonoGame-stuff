@@ -66,3 +66,4 @@ C:\Users\alexs\Documents\projects\MonoGame-stuff\obj\Debug\net10.0\refint\Game.d
 C:\Users\alexs\Documents\projects\MonoGame-stuff\obj\Debug\net10.0\Game.pdb
 C:\Users\alexs\Documents\projects\MonoGame-stuff\obj\Debug\net10.0\Game.genruntimeconfig.cache
 C:\Users\alexs\Documents\projects\MonoGame-stuff\obj\Debug\net10.0\ref\Game.dll
+C:\Users\alexs\Documents\projects\MonoGame-stuff\bin\Debug\net10.0\Content\3D-Models-OBJ\cube.xnb

@@ -32,7 +32,7 @@
 /processorParam:TextureFormat=Compressed
 /build:3D-Models-OBJ/cube.obj
 
-#begin 3D-Models/cube.fbx
+#begin 3D-Models/crystal2.fbx
 /importer:FbxImporter
 /processor:ModelProcessor
 /processorParam:ColorKeyColor=0,0,0,0
@@ -43,15 +43,15 @@
 /processorParam:PremultiplyTextureAlpha=True
 /processorParam:PremultiplyVertexColors=True
 /processorParam:ResizeTexturesToPowerOfTwo=False
-/processorParam:RotationX=0
-/processorParam:RotationY=0
-/processorParam:RotationZ=0
+/processorParam:RotationX=45
+/processorParam:RotationY=45
+/processorParam:RotationZ=45
 /processorParam:Scale=1
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
-/build:3D-Models/cube.fbx
+/build:3D-Models/crystal2.fbx
 
-#begin 3D-Models/cube.fbx
+#begin 3D-Models/crystal3.fbx
 /importer:FbxImporter
 /processor:ModelProcessor
 /processorParam:ColorKeyColor=0,0,0,0
@@ -62,13 +62,13 @@
 /processorParam:PremultiplyTextureAlpha=True
 /processorParam:PremultiplyVertexColors=True
 /processorParam:ResizeTexturesToPowerOfTwo=False
-/processorParam:RotationX=0
+/processorParam:RotationX=270
 /processorParam:RotationY=0
 /processorParam:RotationZ=0
 /processorParam:Scale=1
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
-/build:3D-Models/cube.fbx
+/build:3D-Models/crystal3.fbx
 
 #begin 3D-Models/cube.fbx
 /importer:FbxImporter

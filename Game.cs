@@ -40,7 +40,7 @@ namespace GameNMSP {
 
 
 		public MainGame() {
-			gdm = new GraphicsDeviceManager(this){
+			gdm = new GraphicsDeviceManager(this);
 
 			//gdm.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
     		//gdm.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
@@ -152,16 +152,10 @@ namespace GameNMSP {
 			if (pressedKeys.Contains(Keys.F11) & f11Clickable)
 			{
 				FullscreenSwitch();
-
-			
-			if (pressedKeys.Contains(Keys.F11) && f11Clickable)
-			{
-				switchFullScreen();
-
-				f11Clickable = false;
 			}
 			f11Clickable = !pressedKeys.Contains(Keys.F11);
 		}
+					
 			
 
 		private void FullscreenSwitch()
@@ -184,15 +178,5 @@ namespace GameNMSP {
 				gdm.PreferredBackBufferHeight = GraphicsDevice.Adapter.CurrentDisplayMode.Height;
 			}
 		}
-
-			private void switchFullScreen() {
-
-				gdm.IsFullScreen = !gdm.IsFullScreen;
-				gdm.ApplyChanges();
-			}
-		}
 	}
 }
-
-
-

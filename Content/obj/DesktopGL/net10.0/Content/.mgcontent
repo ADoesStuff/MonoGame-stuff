@@ -4,10 +4,10 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>/home/iasonas/Projects/MonoGame-stuff/Content/3D-Models-OBJ/cube.obj</File>
-    <File>/home/iasonas/Projects/MonoGame-stuff/Content/3D-Models/crystal2.fbx</File>
-    <File>/home/iasonas/Projects/MonoGame-stuff/Content/3D-Models/crystal3.fbx</File>
-    <File>/home/iasonas/Projects/MonoGame-stuff/Content/3D-Models/cube.fbx</File>
+    <File>C:/Users/alexs/Documents/projects/MonoGame-stuff/Content/3D-Models-OBJ/cube.obj</File>
+    <File>C:/Users/alexs/Documents/projects/MonoGame-stuff/Content/3D-Models/crystal2.fbx</File>
+    <File>C:/Users/alexs/Documents/projects/MonoGame-stuff/Content/3D-Models/crystal3.fbx</File>
+    <File>C:/Users/alexs/Documents/projects/MonoGame-stuff/Content/3D-Models/cube.fbx</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

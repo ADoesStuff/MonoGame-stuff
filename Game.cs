@@ -177,6 +177,8 @@ namespace GameNMSP {
 				gdm.PreferredBackBufferHeight = GraphicsDevice.Adapter.CurrentDisplayMode.Height;
 				gdm.PreferredBackBufferHeight = GraphicsDevice.Adapter.CurrentDisplayMode.Height;
 			}
+			gdm.IsFullScreen = !gdm.IsFullScreen;
+			gdm.ApplyChanges();
 		}
 	}
 }

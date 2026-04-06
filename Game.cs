@@ -4,57 +4,85 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameNMSP {
 
-	public class MainGame : Game, ModelDrawer {
-
-
-		int startResizeHeight = 600;
-		int startResizeWidth = 800;
-		int winPosX;
-		int winPosY;
+	public class MainGame : Game, ModelDrawer, KeyHandler, WindowResizer {
+		private ModelDrawer modelDrawer;
+		private KeyHandler keyHandler;
+		private WindowResizer windowResizer;
+		
+		private int startResizeHeight = 600;
+		private int startResizeWidth = 800;
+		private int winPosX;
+		private int winPosY;
 
 		// Window
 		private GraphicsDeviceManager gdm;
 		public Matrix gameWorldRotation;
-		private KeyboardState state = new KeyboardState();
 		private bool f11Clickable = true;
 		
 		// Cube
-
 		private Model? cube;
 		private Vector3 position = new Vector3(0.0f,0.0f,0.0f);
 		private float rotationY = 0.0f;
 		private float rotationX = 0.0f;
 		private float rotationZ = 0.0f;
 
-
-		Vector3 camPos = new Vector3(5, 5, 5);
-		Vector3 camRot = new Vector3(0, 1, 0);
-		float rotSpeed = 1.0f;
-		float rotAng = 0;
-
-
-
-
-
 		// Camera
-
+		private Vector3 camPos = new Vector3(5, 5, 0);
+		private Vector3 camRot = new Vector3(0, 0, 0);
+		private float rotSpeed = 1.0f;
+		private float rotAng = 0;
 
 		public MainGame() {
 			gdm = new GraphicsDeviceManager(this);
-
-			//gdm.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-    		//gdm.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-		
-			// Content.RootDirectory = "Content";
-			// cube = Content.Load<Model>("3D-Models/cube");
+			modelDrawer = this;
+			windowResizer = this;
+			keyHandler = this;
 		}
+
 		protected override void LoadContent()
 		{
 			Content.RootDirectory = "Content";
 			cube = Content.Load<Model>("3D-Models/cube");
 		}
-		public void DrawModel(Model model)
 
+        protected override void Initialize()
+        {
+			gdm.HardwareModeSwitch = false;
+			gdm.IsFullScreen = false;
+			Window.AllowUserResizing = true;
+			gdm.PreferredBackBufferHeight = startResizeHeight;
+			gdm.PreferredBackBufferWidth = startResizeWidth;
+			gdm.ApplyChanges();
+			Console.WriteLine("Height:"+GraphicsDevice.Adapter.CurrentDisplayMode.Height+" Width:"+GraphicsDevice.Adapter.CurrentDisplayMode.Width+" something idek:"+gdm.PreferredBackBufferHeight);
+			base.Initialize();
+        }
+		
+		protected override void Draw(GameTime gt)
+        {
+			if(cube != null)
+			{
+				GraphicsDevice.Clear(Color.BlueViolet);
+				modelDrawer.DrawModel(cube);
+			}
+				
+			base.Draw(gt);
+        }
+
+		protected override void Update(GameTime gt) {
+			var state = Keyboard.GetState();
+			Keys[] pressedKeys = state.GetPressedKeys();
+			keyHandler.HandleInput(pressedKeys);
+
+			rotationY += rotSpeed;
+			gameWorldRotation =
+				Matrix.CreateRotationX(MathHelper.ToRadians(rotationX)) *
+				Matrix.CreateRotationY(MathHelper.ToRadians(rotationY)) *
+				Matrix.CreateRotationZ(MathHelper.ToRadians(rotationZ));
+
+			base.Update(gt);
+		}
+
+		public void DrawModel(Model model)
 		{
 			Matrix[] transforms = new Matrix[model.Bones.Count];
 			float aspectRatio = GraphicsDevice.Viewport.AspectRatio;
@@ -77,64 +105,23 @@ namespace GameNMSP {
 			}
 		}
 
-        protected override void Initialize()
-        {
-			gdm.HardwareModeSwitch = false;
-			gdm.IsFullScreen = false;
-			Window.AllowUserResizing = true;
-			gdm.PreferredBackBufferHeight = startResizeHeight;
-			gdm.PreferredBackBufferWidth = startResizeWidth;
-			gdm.ApplyChanges();
-			Console.WriteLine("Height:"+GraphicsDevice.Adapter.CurrentDisplayMode.Height+" Width:"+GraphicsDevice.Adapter.CurrentDisplayMode.Width+" something idek:"+gdm.PreferredBackBufferHeight);
-			base.Initialize();
-        }
-		
-		protected override void Draw(GameTime gt)
-        {
-
-			if(cube != null)
-			{
-				GraphicsDevice.Clear(Color.BlueViolet);
-				DrawModel(cube);
-			}
-				
-			base.Draw(gt);
-        }
-
-
-		
-		protected override void Update(GameTime gt) {
-			HandleInput();
-			rotationY += rotSpeed;
-			gameWorldRotation =
-				Matrix.CreateRotationX(MathHelper.ToRadians(rotationX)) *
-				Matrix.CreateRotationY(MathHelper.ToRadians(rotationY)) *
-				Matrix.CreateRotationZ(MathHelper.ToRadians(rotationZ));
-
-
-			//UpdateCamera(gt);
-
-			base.Update(gt);
-		}
-
-		private void HandleInput() {			
-			state = Keyboard.GetState();
-			Keys[] pressedKeys = state.GetPressedKeys();
+		public void HandleInput(Keys[] pressedKeys)
+		{
 			if (pressedKeys.Contains(Keys.W))
-			{
-				position.X += 0.1f;
-			}
-			if (pressedKeys.Contains(Keys.S))
 			{
 				position.X -= 0.1f;
 			}
+			if (pressedKeys.Contains(Keys.S))
+			{
+				position.X += 0.1f;
+			}
 			if (pressedKeys.Contains(Keys.D))
 			{
-				position.Z += 0.1f;
+				position.Z -= 0.1f;
 			}
 			if (pressedKeys.Contains(Keys.A))
 			{
-				position.Z -= 0.1f;
+				position.Z += 0.1f;
 			}
 			if(pressedKeys.Contains(Keys.X))
 			{
@@ -151,14 +138,12 @@ namespace GameNMSP {
 
 			if (pressedKeys.Contains(Keys.F11) & f11Clickable)
 			{
-				FullscreenSwitch();
+				windowResizer.ResizeWindow(gdm);
 			}
 			f11Clickable = !pressedKeys.Contains(Keys.F11);
 		}
-					
-			
-
-		private void FullscreenSwitch()
+		
+		public void ResizeWindow(GraphicsDeviceManager gdm)
 		{
 			if (gdm.IsFullScreen == true)
 			{	
@@ -180,5 +165,6 @@ namespace GameNMSP {
 			gdm.IsFullScreen = !gdm.IsFullScreen;
 			gdm.ApplyChanges();
 		}
+		
 	}
 }

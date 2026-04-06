@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameNMSP {
 
-	public class MainGame : Game {
+	public class MainGame : Game, ModelDrawer {
 		// Window
 		private GraphicsDeviceManager gdm;
 		public Matrix gameWorldRotation;
@@ -36,7 +36,6 @@ namespace GameNMSP {
 			gdm.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 			gdm.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
 			gdm.ApplyChanges();
-			Console.WriteLine("Height:"+GraphicsDevice.Adapter.CurrentDisplayMode.Height+" Width:"+GraphicsDevice.Adapter.CurrentDisplayMode.Width+" something idek:"+gdm.PreferredBackBufferHeight);
 			base.Initialize();
         }
 
@@ -44,8 +43,6 @@ namespace GameNMSP {
 		{
 			Content.RootDirectory = "Content";
 			cube = Content.Load<Model>("3D-Models/cube");
-			
-			Console.WriteLine("Initializing the cube...");
 		}
 		
 		protected override void Draw(GameTime gt)
@@ -55,11 +52,10 @@ namespace GameNMSP {
 				GraphicsDevice.Clear(Color.BlueViolet);
 				DrawModel(cube);
 			}
-				
 			base.Draw(gt);
         }
 
-		private void DrawModel(Model model)
+		public void DrawModel(Model model)
 		{
 			Matrix[] transforms = new Matrix[model.Bones.Count];
 			float aspectRatio = GraphicsDevice.Viewport.AspectRatio;

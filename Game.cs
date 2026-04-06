@@ -5,74 +5,30 @@ using Microsoft.Xna.Framework.Input;
 namespace GameNMSP {
 
 	public class MainGame : Game {
-		GraphicsDeviceManager gdm;
-		bool nospam = true;
+		// Window
+		private GraphicsDeviceManager gdm;
+		private bool nospam = true;
+		public Matrix gameWorldRotation;
+		private KeyboardState state = new KeyboardState();
+		
+		// Cube
 		private Model? cube;
 		private Vector3 position = new Vector3(0.0f,0.0f,0.0f);
 		private float rotationY = 0.0f;
 		private float rotationX = 0.0f;
-
 		private float rotationZ = 0.0f;
+		private float rotSpeed = 1.0f;
+		private float rotAng = 0;
 
-		public Matrix gameWorldRotation;
-
-		Vector3 camPos = new Vector3(5, 5, 5);
-		Vector3 camRot = new Vector3(0, 1, 0);
-
-		float rotSpeed = 1.0f;
-		float rotAng = 0;
-
-		KeyboardState state = new KeyboardState();
+		// Camera
+		private Vector3 camPos = new Vector3(5, 5, 5);
+		private Vector3 camRot = new Vector3(0, 1, 0);
 
 		public MainGame() {
-
-			
 			gdm = new GraphicsDeviceManager(this);
-
-
-			//gdm.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-    		//gdm.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-			
-			
-	
-
-			// Content.RootDirectory = "Content";
-			// cube = Content.Load<Model>("3D-Models/cube");
 		}
-		protected override void LoadContent()
-		{
-			Content.RootDirectory = "Content";
-			cube = Content.Load<Model>("3D-Models/cube");
-			
-			Console.WriteLine("Initializing the cube...");
-		}
-
-        private void DrawModel(Model model)
-		{
-			Matrix[] transforms = new Matrix[model.Bones.Count];
-			float aspectRatio = GraphicsDevice.Viewport.AspectRatio;
-			model.CopyAbsoluteBoneTransformsTo(transforms);
-			Matrix project =
-				Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f),
-				aspectRatio, 1.0f, 1000.0f);
-			Matrix view = Matrix.CreateLookAt(camPos, camRot, Vector3.Up);
-			//Matrix world = /*Matrix.CreateTranslation(new Vector3(0, 0, 0)) +*/ Matrix.CreateRotationX(rotAng);
-			
-			
-			foreach (ModelMesh mesh in model.Meshes)
-			{
-				foreach (BasicEffect effect in mesh.Effects)
-				{
-					effect.EnableDefaultLighting();
-
-					effect.View = view;
-					effect.Projection = project;
-					effect.World = gameWorldRotation/*transforms[mesh.ParentBone.Index]*/*Matrix.CreateTranslation(position);
-				}
-				mesh.Draw();
-			}
-		}
-        protected override void Initialize()
+		
+		protected override void Initialize()
         {
 			gdm.HardwareModeSwitch = false;
 			gdm.IsFullScreen = false;
@@ -83,10 +39,17 @@ namespace GameNMSP {
 			Console.WriteLine("Height:"+GraphicsDevice.Adapter.CurrentDisplayMode.Height+" Width:"+GraphicsDevice.Adapter.CurrentDisplayMode.Width+" something idek:"+gdm.PreferredBackBufferHeight);
 			base.Initialize();
         }
+
+		protected override void LoadContent()
+		{
+			Content.RootDirectory = "Content";
+			cube = Content.Load<Model>("3D-Models/cube");
+			
+			Console.WriteLine("Initializing the cube...");
+		}
 		
 		protected override void Draw(GameTime gt)
         {
-
 			if(cube != null)
 			{
 				GraphicsDevice.Clear(Color.BlueViolet);
@@ -95,16 +58,37 @@ namespace GameNMSP {
 				
 			base.Draw(gt);
         }
+
+		private void DrawModel(Model model)
+		{
+			Matrix[] transforms = new Matrix[model.Bones.Count];
+			float aspectRatio = GraphicsDevice.Viewport.AspectRatio;
+			model.CopyAbsoluteBoneTransformsTo(transforms);
+			Matrix project = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f),
+				aspectRatio, 1.0f, 1000.0f);
+			Matrix view = Matrix.CreateLookAt(camPos, camRot, Vector3.Up);			
+			
+			foreach (ModelMesh mesh in model.Meshes)
+			{
+				foreach (BasicEffect effect in mesh.Effects)
+				{
+					effect.EnableDefaultLighting();
+
+					effect.View = view;
+					effect.Projection = project;
+					effect.World = gameWorldRotation*Matrix.CreateTranslation(position);
+				}
+				mesh.Draw();
+			}
+		}
 		
 		protected override void Update(GameTime gt) {
 			HandleInput();
 			rotationY += rotSpeed;
-			//UpdateCamera(gt);
 			base.Update(gt);
 		}
 
-		private void HandleInput() {
-			
+		private void HandleInput() {			
 			state = Keyboard.GetState();
 			Keys[] pressedKeys = state.GetPressedKeys();
 			if (pressedKeys.Contains(Keys.W))
@@ -160,7 +144,5 @@ namespace GameNMSP {
 				Matrix.CreateRotationZ(MathHelper.ToRadians(rotationZ));
 		}
 	}
-
-	
 
 }

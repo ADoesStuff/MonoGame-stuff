@@ -6,28 +6,28 @@ namespace GameNMSP {
 
 	public class MainGame : Game {
 		GraphicsDeviceManager gdm;
-		bool nospam = true;
+		bool f11Clickable = true;
+		int startResizeHeight = 600;
+		int startResizeWidth = 800;
+		int winPosX;
+		int winPosY;
 		private Model? cube;
 		private Vector3 position = new Vector3(0.0f,0.0f,0.0f);
 		private float rotationY = 0.0f;
 		private float rotationX = 0.0f;
-
 		private float rotationZ = 0.0f;
-
 		public Matrix gameWorldRotation;
-
 		Vector3 camPos = new Vector3(5, 5, 5);
 		Vector3 camRot = new Vector3(0, 1, 0);
-
 		float rotSpeed = 1.0f;
 		float rotAng = 0;
-
 		KeyboardState state = new KeyboardState();
-
 		public MainGame() {
 
 			
 			gdm = new GraphicsDeviceManager(this);
+			
+
 
 
 			//gdm.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
@@ -77,8 +77,8 @@ namespace GameNMSP {
 			gdm.HardwareModeSwitch = false;
 			gdm.IsFullScreen = false;
 			Window.AllowUserResizing = true;
-			gdm.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-			gdm.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+			gdm.PreferredBackBufferHeight = startResizeHeight;
+			gdm.PreferredBackBufferWidth = startResizeWidth;
 			gdm.ApplyChanges();
 			Console.WriteLine("Height:"+GraphicsDevice.Adapter.CurrentDisplayMode.Height+" Width:"+GraphicsDevice.Adapter.CurrentDisplayMode.Width+" something idek:"+gdm.PreferredBackBufferHeight);
 			base.Initialize();
@@ -99,6 +99,11 @@ namespace GameNMSP {
 		protected override void Update(GameTime gt) {
 			HandleInput();
 			rotationY += rotSpeed;
+			gameWorldRotation =
+				Matrix.CreateRotationX(MathHelper.ToRadians(rotationX)) *
+				Matrix.CreateRotationY(MathHelper.ToRadians(rotationY)) *
+				Matrix.CreateRotationZ(MathHelper.ToRadians(rotationZ));
+
 			//UpdateCamera(gt);
 			base.Update(gt);
 		}
@@ -135,32 +140,34 @@ namespace GameNMSP {
 			{
 				rotationY += rotSpeed;
 			}
-			if (pressedKeys.Contains(Keys.F11) & nospam)
+			if (pressedKeys.Contains(Keys.F11) & f11Clickable)
 			{
-				if (gdm.IsFullScreen == true)
-				{
-					gdm.IsFullScreen = false;
-					gdm.ApplyChanges();
-					nospam = false;
-				}
-				else if (gdm.IsFullScreen == false)
-				{
-					gdm.IsFullScreen = true;
-					gdm.ApplyChanges();
-					nospam = false;
-				}
+				FullscreenSwitch();
+				f11Clickable = false;
 			}
-			if (!pressedKeys.Contains(Keys.F11) & !nospam)
+			f11Clickable = !pressedKeys.Contains(Keys.F11);
+		}
+		private void FullscreenSwitch()
+		{
+			if (gdm.IsFullScreen == true)
+			{	
+				gdm.PreferredBackBufferHeight = startResizeHeight;
+				gdm.PreferredBackBufferWidth = startResizeWidth;
+				gdm.HardwareModeSwitch = true;
+				Window.Position = new Point(winPosX, winPosY);
+			}
+			else if (gdm.IsFullScreen == false)
 			{
-				nospam = true;
+				startResizeHeight = Window.ClientBounds.Height;
+				startResizeWidth = Window.ClientBounds.Width;
+				gdm.HardwareModeSwitch = false;
+				winPosX = Window.Position.X;
+				winPosY = Window.Position.Y;
+				gdm.PreferredBackBufferHeight = GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+				gdm.PreferredBackBufferHeight = GraphicsDevice.Adapter.CurrentDisplayMode.Height;
 			}
-			gameWorldRotation =
-				Matrix.CreateRotationX(MathHelper.ToRadians(rotationX)) *
-				Matrix.CreateRotationY(MathHelper.ToRadians(rotationY)) *
-				Matrix.CreateRotationZ(MathHelper.ToRadians(rotationZ));
+			gdm.IsFullScreen = !gdm.IsFullScreen;
+			gdm.ApplyChanges();
 		}
 	}
-
-	
-
 }

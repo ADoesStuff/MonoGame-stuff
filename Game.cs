@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameNMSP {
 
-	public class MainGame : Game {
+	public class MainGame : Game, ModelDrawer {
 		GraphicsDeviceManager gdm;
 		bool f11Clickable = true;
 		int startResizeHeight = 600;
@@ -47,7 +47,7 @@ namespace GameNMSP {
 			Console.WriteLine("Initializing the cube...");
 		}
 
-        private void DrawModel(Model model)
+        public void DrawModel(Model model)
 		{
 			Matrix[] transforms = new Matrix[model.Bones.Count];
 			float aspectRatio = GraphicsDevice.Viewport.AspectRatio;

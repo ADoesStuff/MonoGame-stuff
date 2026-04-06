@@ -1,3 +1,3 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/alexs/Documents/projects/MonoGame-stuff/Content/3D-Models-OBJ/cube.obj","C:/Users/alexs/Documents/projects/MonoGame-stuff/Content/bin/DesktopGL/Content/3D-Models-OBJ/cube.xnb","ModelProcessor","ModelContent",939,3433,0.230321
-"C:/Users/alexs/Documents/projects/MonoGame-stuff/Content/3D-Models/cube.fbx","C:/Users/alexs/Documents/projects/MonoGame-stuff/Content/bin/DesktopGL/Content/3D-Models/cube.xnb","ModelProcessor","ModelContent",15164,1495,0.193261
+"/home/iasonas/Projects/MonoGame-stuff/Content/3D-Models-OBJ/cube.obj","/home/iasonas/Projects/MonoGame-stuff/Content/bin/DesktopGL/Content/3D-Models-OBJ/cube.xnb","ModelProcessor","ModelContent",939,3423,0.6137688
+"/home/iasonas/Projects/MonoGame-stuff/Content/3D-Models/cube.fbx","/home/iasonas/Projects/MonoGame-stuff/Content/bin/DesktopGL/Content/3D-Models/cube.xnb","ModelProcessor","ModelContent",15164,1495,0.0224468

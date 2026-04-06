@@ -7,9 +7,9 @@ namespace GameNMSP {
 	public class MainGame : Game {
 		// Window
 		private GraphicsDeviceManager gdm;
-		private bool nospam = true;
 		public Matrix gameWorldRotation;
 		private KeyboardState state = new KeyboardState();
+		private bool f11Clickable = true;
 		
 		// Cube
 		private Model? cube;
@@ -85,6 +85,11 @@ namespace GameNMSP {
 		protected override void Update(GameTime gt) {
 			HandleInput();
 			rotationY += rotSpeed;
+			gameWorldRotation =
+				Matrix.CreateRotationX(MathHelper.ToRadians(rotationX)) *
+				Matrix.CreateRotationY(MathHelper.ToRadians(rotationY)) *
+				Matrix.CreateRotationZ(MathHelper.ToRadians(rotationZ));
+
 			base.Update(gt);
 		}
 
@@ -119,29 +124,18 @@ namespace GameNMSP {
 			{
 				rotationY += rotSpeed;
 			}
-			if (pressedKeys.Contains(Keys.F11) & nospam)
+			
+			if (pressedKeys.Contains(Keys.F11) && f11Clickable)
 			{
-				if (gdm.IsFullScreen == true)
-				{
-					gdm.IsFullScreen = false;
-					gdm.ApplyChanges();
-					nospam = false;
-				}
-				else if (gdm.IsFullScreen == false)
-				{
-					gdm.IsFullScreen = true;
-					gdm.ApplyChanges();
-					nospam = false;
-				}
+				switchFullScreen();
+				f11Clickable = false;
 			}
-			if (!pressedKeys.Contains(Keys.F11) & !nospam)
-			{
-				nospam = true;
-			}
-			gameWorldRotation =
-				Matrix.CreateRotationX(MathHelper.ToRadians(rotationX)) *
-				Matrix.CreateRotationY(MathHelper.ToRadians(rotationY)) *
-				Matrix.CreateRotationZ(MathHelper.ToRadians(rotationZ));
+			f11Clickable = !pressedKeys.Contains(Keys.F11);
+		}
+
+		private void switchFullScreen() {
+			gdm.IsFullScreen = !gdm.IsFullScreen;
+			gdm.ApplyChanges();
 		}
 	}
 

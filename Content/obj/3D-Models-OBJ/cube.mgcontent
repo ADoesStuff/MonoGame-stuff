@@ -3,7 +3,7 @@
   <SourceFile>C:/Users/alexs/Documents/projects/MonoGame-stuff/Content/3D-Models-OBJ/cube.obj</SourceFile>
   <SourceTime>2026-03-29T16:16:23.7852123+03:00</SourceTime>
   <DestFile>C:/Users/alexs/Documents/projects/MonoGame-stuff/Content/bin/3D-Models-OBJ/cube.xnb</DestFile>
-  <DestTime>2026-03-29T16:25:54.7209008+03:00</DestTime>
+  <DestTime>2026-03-30T19:55:57.4714091+03:00</DestTime>
   <Importer>OpenAssetImporter</Importer>
   <ImporterTime>2025-10-20T17:25:32+03:00</ImporterTime>
   <Processor>ModelProcessor</Processor>

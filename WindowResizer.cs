@@ -2,5 +2,5 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 public interface WindowResizer {
-    public void ResizeWindow(GraphicsDeviceManager gdm);
+    public void ResizeWindow(GraphicsDevice GraphicsDevice, GameWindow Window);
 }

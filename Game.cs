@@ -4,39 +4,28 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameNMSP {
 
-	public class MainGame : Game, ModelDrawer, KeyHandler, WindowResizer {
+	public class MainGame : Game {
 		private ModelDrawer modelDrawer;
 		private KeyHandler keyHandler;
 		private WindowResizer windowResizer;
-		
-		private int startResizeHeight = 600;
-		private int startResizeWidth = 800;
-		private int winPosX;
-		private int winPosY;
 
-		// Window
-		private GraphicsDeviceManager gdm;
-		public Matrix gameWorldRotation;
-		private bool f11Clickable = true;
-		
+		private const int WINDOW_INIT_WIDTH = 600;
+		private const int WINDOW_INIT_HEIGHT= 800;
+
 		// Cube
 		private Model? cube;
 		private Vector3 position = new Vector3(0.0f,0.0f,0.0f);
-		private float rotationY = 0.0f;
-		private float rotationX = 0.0f;
-		private float rotationZ = 0.0f;
+		private Vector3 rotation = new Vector3(0.0f,0.0f,0.0f);
 
-		// Camera
-		private Vector3 camPos = new Vector3(5, 5, 0);
-		private Vector3 camRot = new Vector3(0, 0, 0);
-		private float rotSpeed = 1.0f;
-		private float rotAng = 0;
+		// Window
+		private GraphicsDeviceManager gdm;
 
 		public MainGame() {
 			gdm = new GraphicsDeviceManager(this);
-			modelDrawer = this;
-			windowResizer = this;
-			keyHandler = this;
+			modelDrawer = new GameModelDrawer();
+			windowResizer = new GameResizer(WINDOW_INIT_WIDTH, WINDOW_INIT_HEIGHT, gdm);
+			keyHandler = new GameKeyHandler();
+			
 		}
 
 		protected override void LoadContent()
@@ -47,13 +36,13 @@ namespace GameNMSP {
 
         protected override void Initialize()
         {
+			
 			gdm.HardwareModeSwitch = false;
 			gdm.IsFullScreen = false;
 			Window.AllowUserResizing = true;
-			gdm.PreferredBackBufferHeight = startResizeHeight;
-			gdm.PreferredBackBufferWidth = startResizeWidth;
+			gdm.PreferredBackBufferHeight= WINDOW_INIT_HEIGHT;
+			gdm.PreferredBackBufferWidth = WINDOW_INIT_WIDTH;
 			gdm.ApplyChanges();
-			Console.WriteLine("Height:"+GraphicsDevice.Adapter.CurrentDisplayMode.Height+" Width:"+GraphicsDevice.Adapter.CurrentDisplayMode.Width+" something idek:"+gdm.PreferredBackBufferHeight);
 			base.Initialize();
         }
 		
@@ -61,8 +50,13 @@ namespace GameNMSP {
         {
 			if(cube != null)
 			{
+				Console.WriteLine("Drawing...");
 				GraphicsDevice.Clear(Color.BlueViolet);
-				modelDrawer.DrawModel(cube);
+				Matrix gameWorldRotation =
+						Matrix.CreateRotationX(MathHelper.ToRadians(rotation.X)) *
+						Matrix.CreateRotationY(MathHelper.ToRadians(rotation.Y)) *
+						Matrix.CreateRotationZ(MathHelper.ToRadians(rotation.Z));
+				modelDrawer.DrawModel(GraphicsDevice, cube, position, rotation, gameWorldRotation);
 			}
 				
 			base.Draw(gt);
@@ -71,100 +65,129 @@ namespace GameNMSP {
 		protected override void Update(GameTime gt) {
 			var state = Keyboard.GetState();
 			Keys[] pressedKeys = state.GetPressedKeys();
-			keyHandler.HandleInput(pressedKeys);
-
-			rotationY += rotSpeed;
-			gameWorldRotation =
-				Matrix.CreateRotationX(MathHelper.ToRadians(rotationX)) *
-				Matrix.CreateRotationY(MathHelper.ToRadians(rotationY)) *
-				Matrix.CreateRotationZ(MathHelper.ToRadians(rotationZ));
+			keyHandler.HandleInput(GraphicsDevice, pressedKeys, ref position, ref rotation, windowResizer, Window);
 
 			base.Update(gt);
 		}
 
-		public void DrawModel(Model model)
+		class GameResizer : WindowResizer
 		{
-			Matrix[] transforms = new Matrix[model.Bones.Count];
-			float aspectRatio = GraphicsDevice.Viewport.AspectRatio;
-			model.CopyAbsoluteBoneTransformsTo(transforms);
-			Matrix project = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f),
-				aspectRatio, 1.0f, 1000.0f);
-			Matrix view = Matrix.CreateLookAt(camPos, camRot, Vector3.Up);			
-			
-			foreach (ModelMesh mesh in model.Meshes)
-			{
-				foreach (BasicEffect effect in mesh.Effects)
-				{
-					effect.EnableDefaultLighting();
+			private int startResizeHeight;
+			private int startResizeWidth;
+			private int winPosX;
+			private int winPosY;
 
-					effect.View = view;
-					effect.Projection = project;
-					effect.World = gameWorldRotation*Matrix.CreateTranslation(position);
+			private GraphicsDeviceManager gdm;
+
+			public GameResizer(int w, int h, GraphicsDeviceManager graDevMan)
+			{
+				gdm = graDevMan;
+				startResizeWidth = w;
+				startResizeHeight= h;
+			}
+
+			public void ResizeWindow(GraphicsDevice GraphicsDevice, GameWindow Window)
+			{
+				if (gdm.IsFullScreen == true)
+				{	
+					gdm.PreferredBackBufferHeight = startResizeHeight;
+					gdm.PreferredBackBufferWidth = startResizeWidth;
+					gdm.HardwareModeSwitch = true;
+					Window.Position = new Point(winPosX, winPosY);
 				}
-				mesh.Draw();
+				else if (gdm.IsFullScreen == false)
+				{
+					startResizeHeight = Window.ClientBounds.Height;
+					startResizeWidth = Window.ClientBounds.Width;
+					gdm.HardwareModeSwitch = false;
+					winPosX = Window.Position.X;
+					winPosY = Window.Position.Y;
+					gdm.PreferredBackBufferHeight = GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+					gdm.PreferredBackBufferHeight = GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+				}
+				gdm.IsFullScreen = !gdm.IsFullScreen;
+				gdm.ApplyChanges();
 			}
 		}
 
-		public void HandleInput(Keys[] pressedKeys)
+		class GameKeyHandler : KeyHandler
 		{
-			if (pressedKeys.Contains(Keys.W))
+			private bool f11Clickable = true;
+			private float rotSpeed = 1.0f;
+
+			public void HandleInput(GraphicsDevice GraphicsDevice, Keys[] pressedKeys, ref Vector3 position, 
+				ref Vector3 rotation, WindowResizer windowResizer, GameWindow Window) 
 			{
-				position.X -= 0.1f;
+				if (pressedKeys.Contains(Keys.W))
+				{
+					position.X -= 0.1f;
+				}
+				if (pressedKeys.Contains(Keys.S))
+				{
+					position.X += 0.1f;
+				}
+				if (pressedKeys.Contains(Keys.D))
+				{
+					position.Z -= 0.1f;
+				}
+				if (pressedKeys.Contains(Keys.A))
+				{
+					position.Z += 0.1f;
+				}
+				if(pressedKeys.Contains(Keys.X))
+				{
+					rotation.X += rotSpeed;
+				}
+				if (pressedKeys.Contains(Keys.Z))
+				{
+					rotation.Z += rotSpeed;
+				}
+				if (pressedKeys.Contains(Keys.C))
+				{
+					rotation.Y += rotSpeed;
+					Console.WriteLine(rotation.Y);
+				}
+
+				if (pressedKeys.Contains(Keys.F11) & f11Clickable)
+				{
+					windowResizer.ResizeWindow(GraphicsDevice, Window);
+				}
+				f11Clickable = !pressedKeys.Contains(Keys.F11);
 			}
-			if (pressedKeys.Contains(Keys.S))
-			{
-				position.X += 0.1f;
-			}
-			if (pressedKeys.Contains(Keys.D))
-			{
-				position.Z -= 0.1f;
-			}
-			if (pressedKeys.Contains(Keys.A))
-			{
-				position.Z += 0.1f;
-			}
-			if(pressedKeys.Contains(Keys.X))
-			{
-				rotationX += rotSpeed;
-			}
-			if (pressedKeys.Contains(Keys.Z))
-			{
-				rotationZ += rotSpeed;
-			}
-			if (pressedKeys.Contains(Keys.C))
-			{
-				rotationY += rotSpeed;
+		}
+
+		class GameModelDrawer : ModelDrawer
+		{
+			// Camera
+			private Vector3 camPos = new Vector3(5, 5, 0);
+			private Vector3 camRot = new Vector3(0, 0, 0);
+
+			public GameModelDrawer() {
 			}
 
-			if (pressedKeys.Contains(Keys.F11) & f11Clickable)
+			public void DrawModel(GraphicsDevice GraphicsDevice, Model model, Vector3 position, Vector3 rotation, Matrix gameWorldRotation)
 			{
-				windowResizer.ResizeWindow(gdm);
+				Console.WriteLine("Drawing Model...");
+				Matrix[] transforms = new Matrix[model.Bones.Count];
+				float aspectRatio = GraphicsDevice.Viewport.AspectRatio;
+				model.CopyAbsoluteBoneTransformsTo(transforms);
+				Matrix project = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45.0f),
+					aspectRatio, 1.0f, 1000.0f);
+				Matrix view = Matrix.CreateLookAt(camPos, camRot, Vector3.Up);			
+				
+				foreach (ModelMesh mesh in model.Meshes)
+				{
+					foreach (BasicEffect effect in mesh.Effects)
+					{
+						effect.EnableDefaultLighting();
+
+						effect.View = view;
+						effect.Projection = project;
+						effect.World = gameWorldRotation*Matrix.CreateTranslation(position);
+					}
+					mesh.Draw();
+				}
 			}
-			f11Clickable = !pressedKeys.Contains(Keys.F11);
 		}
-		
-		public void ResizeWindow(GraphicsDeviceManager gdm)
-		{
-			if (gdm.IsFullScreen == true)
-			{	
-				gdm.PreferredBackBufferHeight = startResizeHeight;
-				gdm.PreferredBackBufferWidth = startResizeWidth;
-				gdm.HardwareModeSwitch = true;
-				Window.Position = new Point(winPosX, winPosY);
-			}
-			else if (gdm.IsFullScreen == false)
-			{
-				startResizeHeight = Window.ClientBounds.Height;
-				startResizeWidth = Window.ClientBounds.Width;
-				gdm.HardwareModeSwitch = false;
-				winPosX = Window.Position.X;
-				winPosY = Window.Position.Y;
-				gdm.PreferredBackBufferHeight = GraphicsDevice.Adapter.CurrentDisplayMode.Height;
-				gdm.PreferredBackBufferHeight = GraphicsDevice.Adapter.CurrentDisplayMode.Height;
-			}
-			gdm.IsFullScreen = !gdm.IsFullScreen;
-			gdm.ApplyChanges();
-		}
-		
-	}
+	}	
 }

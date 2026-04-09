@@ -1,5 +1,3 @@
-using GameNMSP;
-
 class Program {
 	static void Main() {
 		try {

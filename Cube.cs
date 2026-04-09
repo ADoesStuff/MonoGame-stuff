@@ -3,14 +3,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 
-public class Cube : Entity
+public class Cube : Entity, KeyHandler
 {
     protected override Model loadModel(ContentManager Content)
     {
         return Content.Load<Model>("3D-Models/cube");
     }
 
-    public void HandleInput(Keys[] pressedKeys)
+    public void HandleKeyInput(Keys[] pressedKeys)
     {
         if (pressedKeys.Contains(Keys.W))
         {

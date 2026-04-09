@@ -2,23 +2,22 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-public class MainGame : Game
+public class MainGame : Game, KeyHandler
 {
 	private ModelDrawer modelDrawer;
-	private KeyHandler keyHandler;
 	private WindowResizer windowResizer;
 
 	private const int WINDOW_INIT_WIDTH = 600;
 	private const int WINDOW_INIT_HEIGHT= 800;
+	private bool f11Clickable = true;
 
-	private Cube? cube;
+	private Cube cube;
 	private GraphicsDeviceManager gdm;
 
 	public MainGame() {
 		gdm = new GraphicsDeviceManager(this);
 		modelDrawer = new GameModelDrawer();
 		windowResizer = new GameResizer(WINDOW_INIT_WIDTH, WINDOW_INIT_HEIGHT, gdm);
-		keyHandler = new GameKeyHandler();
 		cube = new Cube();
 	}
 
@@ -52,8 +51,17 @@ public class MainGame : Game
 	protected override void Update(GameTime gt) {
 		var state = Keyboard.GetState();
 		Keys[] pressedKeys = state.GetPressedKeys();
-		keyHandler.HandleInput(GraphicsDevice, pressedKeys, windowResizer, Window);
-		cube.HandleInput(pressedKeys);
+		this.HandleKeyInput(pressedKeys);
+		cube.HandleKeyInput(pressedKeys);
 		base.Update(gt);
-	}		
+	}
+
+    public void HandleKeyInput(Keys[] pressedKeys) 
+    {
+        if (pressedKeys.Contains(Keys.F11) & f11Clickable)
+        {
+            windowResizer.ResizeWindow(GraphicsDevice, Window);
+        }
+        f11Clickable = !pressedKeys.Contains(Keys.F11);
+    }	
 }

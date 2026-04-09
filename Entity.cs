@@ -5,8 +5,8 @@ using Microsoft.Xna.Framework.Content;
 
 public abstract class Entity {
     private Model? model;
-	protected Vector3 position = new Vector3(0.0f,0.0f,0.0f);
-	protected Vector3 rotation = new Vector3(0.0f,0.0f,0.0f);
+	protected Vector3 position = new Vector3();
+	protected Vector3 rotation = new Vector3();
 
     public void load(ContentManager Content)
     {

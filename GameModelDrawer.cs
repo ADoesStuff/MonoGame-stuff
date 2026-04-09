@@ -4,12 +4,8 @@ using Microsoft.Xna.Framework.Input;
 
 class GameModelDrawer : ModelDrawer
 {
-    // Camera
     private Vector3 camPos = new Vector3(5, 5, 0);
     private Vector3 camRot = new Vector3(0, 0, 0);
-
-    public GameModelDrawer() {
-    }
 
     public void DrawModel(GraphicsDevice GraphicsDevice, Entity entity)
     {

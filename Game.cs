@@ -1,11 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Input;
+using Graphics;
 
-public class MainGame : Game, KeyHandler
+public class MainGame : Game, IKeyHandler
 {
-	private ModelDrawer modelDrawer;
-	private WindowResizer windowResizer;
+	private IModelDrawer modelDrawer;
+	private IWindowResizer windowResizer;
 
 	private const int WINDOW_INIT_WIDTH = 600;
 	private const int WINDOW_INIT_HEIGHT= 800;

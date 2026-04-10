@@ -1,13 +1,16 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Entity;
+using Input;
 
-class GameModelDrawer : ModelDrawer
+namespace Graphics;
+class GameModelDrawer : IModelDrawer
 {
     private Vector3 camPos = new Vector3(5, 5, 0);
     private Vector3 camRot = new Vector3(0, 0, 0);
 
-    public void DrawModel(GraphicsDevice GraphicsDevice, Entity entity)
+    public void DrawModel(GraphicsDevice GraphicsDevice, AbstractEntity entity)
     {
         Vector3 rotation = entity.getRotation();
         Matrix gameWorldRotation =

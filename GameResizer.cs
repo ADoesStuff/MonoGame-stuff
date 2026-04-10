@@ -2,7 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-class GameResizer : WindowResizer
+namespace Graphics;
+class GameResizer : IWindowResizer
 {
     private int startResizeHeight;
     private int startResizeWidth;

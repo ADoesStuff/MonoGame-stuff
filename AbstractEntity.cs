@@ -3,7 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 
-public abstract class Entity {
+namespace Entity;
+public abstract class AbstractEntity {
     private Model? model;
 	protected Vector3 position = new Vector3();
 	protected Vector3 rotation = new Vector3();

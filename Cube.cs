@@ -2,8 +2,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using Entity;
+using Input;
 
-public class Cube : Entity, KeyHandler
+
+public class Cube : AbstractEntity, IKeyHandler
 {
     protected override Model loadModel(ContentManager Content)
     {

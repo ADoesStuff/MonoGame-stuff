@@ -13,7 +13,7 @@ class ExitButton : AbstractElement, IMouseHandler
         return content.Load<Texture2D>("2D-Images/EXIT");
     }
 	public void HandleMouseInput(MouseState mouse){}
-    public void HandleMouseInput(MouseState mouseState, Game game)
+    public void HandleMouseInput(MouseState mouseState, IExiter exiter)
     {
 		Rectangle mouseRect = new Rectangle(mouseState.X, mouseState.Y, 1,1);
 		if (mouseRect.Intersects(rectangle))
@@ -22,7 +22,7 @@ class ExitButton : AbstractElement, IMouseHandler
 
 			if(mouseState.LeftButton == ButtonState.Pressed)
 			{
-				game.Exit();
+				exiter.Exit();
 			}
 		}
 		else
@@ -36,7 +36,7 @@ class ExitButton : AbstractElement, IMouseHandler
 		sprtBatch.Draw(texture,rectangle,Color.White);
 		sprtBatch.End();
     }
-    public void HandleMouseInput(MouseState mouseState, Rectangle mouseRect, IExiter game)
+    public void HandleMouseInput(MouseState mouseState, Rectangle mouseRect, IExiter exiter)
     {
 		if (mouseRect.Intersects(rectangle))
 		{
@@ -46,7 +46,7 @@ class ExitButton : AbstractElement, IMouseHandler
 			if(mouseState.LeftButton == ButtonState.Pressed)
 			{
 				Console.WriteLine("button pressed");
-				game.Exit();
+				exiter.Exit();
 			}
 		}
 		else

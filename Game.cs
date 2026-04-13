@@ -2,19 +2,15 @@ using Input;
 using Graphics;
 using Entity;
 
-public class MainGame : Game, IKeyHandler, IMouseHandler, IExiter
+public class MainGame : Game, IKeyHandler, IExiter
 {
 	private IModelDrawer modelDrawer;
 	private IWindowResizer windowResizer;
-	private IExiter gameExiter;
-
 
 	private const int WINDOW_INIT_WIDTH = 600;
 	private const int WINDOW_INIT_HEIGHT= 800;
 	private bool f11Clickable = true;
 	private SpriteBatch spriteBatch;
-
-	private Rectangle rect;
 
 	private Cube cube;
 	private Crystal crystal;
@@ -37,10 +33,6 @@ public class MainGame : Game, IKeyHandler, IMouseHandler, IExiter
 		cube.load(Content);
 		crystal.load(Content);
 		exit.load(Content, GraphicsDevice);
-
-		// rect = new Rectangle(Window.ClientBounds.Center.X,Window.ClientBounds.Center.Y ,200, 300);
-		rect = new Rectangle();
-		rect.Y = 10;
 	}
 
 	protected override void Initialize()
@@ -71,33 +63,11 @@ public class MainGame : Game, IKeyHandler, IMouseHandler, IExiter
 		var state = Keyboard.GetState();
 		var mouse = Mouse.GetState();
 		Rectangle mouseRect = new Rectangle(mouse.X, mouse.Y, 1,1);
-		rect.X = Window.ClientBounds.Width/2 - rect.Width/2;
-		int size = (Window.ClientBounds.Width + Window.ClientBounds.Height)/2/16;
-		rect.Width = (int)(size * 1.5);
-		rect.Height = size;
 		Keys[] pressedKeys = state.GetPressedKeys();
 		this.HandleKeyInput(pressedKeys);
 		cube.HandleKeyInput(pressedKeys);
-		exit.HandleMouseInput(mouse, mouseRect, gameExiter);
-		this.HandleMouseInput(Mouse.GetState());
+		exit.HandleMouseInput(mouse, mouseRect, this);
 		base.Update(gt);
-	}
-	public void HandleMouseInput(MouseState mouse)
-	{
-		Rectangle mouseRect = new Rectangle(mouse.X, mouse.Y, 1,1);
-		if (mouseRect.Intersects(rect))
-		{
-			Mouse.SetCursor(MouseCursor.Hand);
-
-			if(mouse.LeftButton == ButtonState.Pressed)
-			{
-				Exit();
-			}
-		}
-		else
-		{
-			Mouse.SetCursor(MouseCursor.Arrow);
-		}
 	}
     public void HandleKeyInput(Keys[] pressedKeys) 
     {

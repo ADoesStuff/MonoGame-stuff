@@ -1,0 +1,39 @@
+public abstract class AbstractElement
+{
+    private Texture2D? texture;
+    public SpriteBatch sprtBatch;
+    public Rectangle rectangle;
+    protected Vector2 position = new Vector2();
+	protected Vector2 rotation = new Vector2();
+    public virtual void load(ContentManager content, GraphicsDevice graphicsDevice)
+    {
+        sprtBatch = new SpriteBatch(graphicsDevice);
+        texture = loadTexture(content);
+        rectangle = new Rectangle();
+    }
+    public abstract Texture2D loadTexture(ContentManager content);
+    public Texture2D getTexture()
+    {
+        if(texture == null)
+            throw new Exception("No model is loaded.");
+        return texture;
+    }
+    public Vector2 getPosition()
+    {
+        return position;
+    }
+    public Vector2 getRotation()
+    {
+        return rotation;
+    }
+    public virtual void Draw()
+    {
+        sprtBatch.Begin();
+        sprtBatch.Draw(texture, rectangle, Color.Transparent);
+        sprtBatch.End();
+    }
+    public virtual void Update()
+    {
+        
+    }
+}

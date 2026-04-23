@@ -41,11 +41,10 @@ class ExitButton : AbstractElement, IMouseHandler
 		if (mouseRect.Intersects(rectangle))
 		{
 			Mouse.SetCursor(MouseCursor.Hand);
-			Console.WriteLine("hovering over the button");
 
 			if(mouseState.LeftButton == ButtonState.Pressed)
 			{
-				Console.WriteLine("button pressed");
+				Console.WriteLine("Bye!");
 				exiter.Exit();
 			}
 		}
